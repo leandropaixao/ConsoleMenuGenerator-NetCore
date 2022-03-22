@@ -6,7 +6,10 @@ namespace ConsoleMenuGenerator
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Salut monde");
+            if (string.IsNullOrEmpty(args))
+            {
+                Console.WriteLine("Salut monde");
+            }                
         }
     }
 }
