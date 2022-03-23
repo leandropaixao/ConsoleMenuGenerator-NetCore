@@ -1,0 +1,15 @@
+{
+	"Title": "Cadastro de pessoas",
+	"Menu": [
+	    {
+			"Pessoas": "CadastroPessoas"
+		},
+		{
+			"Telefone": "CadastroTelefones"
+		},
+		{
+			"Endereco": "CadastroEndereco"
+		}
+	],
+	"Exit": "Sair"
+}
