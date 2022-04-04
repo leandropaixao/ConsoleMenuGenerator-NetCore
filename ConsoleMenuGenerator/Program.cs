@@ -16,7 +16,7 @@ namespace ConsoleMenuGenerator
 
             if (!File.Exists(path))
             {
-                InvalidPath();
+                InvalidPathExtenion();
                 return;
             }
 
@@ -24,7 +24,7 @@ namespace ConsoleMenuGenerator
 
             if (!extension.Equals(".proto") && !extension.Equals(".json"))
             {
-                InvalidExtension();
+                InvalidPathExtenion(true);
                 Console.WriteLine(extension);
                 return;
             }
@@ -50,25 +50,18 @@ namespace ConsoleMenuGenerator
             Console.ResetColor();
         }
 
-        private static void InvalidPath()
+        private static void InvalidPathExtension(bool extension = false)
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine(GetProjectGithub());
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Caminho do arquivo inválido ou arquivo inexistente.");
+            if (extension)
+                Console.WriteLine("Tipo de arquivo inválido, deve ser .json ou .proto.");    
+            else
+                Console.WriteLine("Caminho do arquivo inválido ou arquivo inexistente.");
             Console.ResetColor();
-        }
-
-        private static void InvalidExtension()
-        {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(GetProjectGithub());
-            Console.WriteLine("");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Tipo de arquivo inválido, deve ser .json ou .proto.");
-            Console.ResetColor();
-        }
+        }        
     }
 }
 
