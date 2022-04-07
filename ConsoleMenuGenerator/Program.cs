@@ -16,7 +16,7 @@ namespace ConsoleMenuGenerator
 
             if (!File.Exists(path))
             {
-                InvalidPathExtenion();
+                InvalidPathExtension();
                 return;
             }
 
@@ -24,7 +24,7 @@ namespace ConsoleMenuGenerator
 
             if (!extension.Equals(".proto") && !extension.Equals(".json"))
             {
-                InvalidPathExtenion(true);
+                InvalidPathExtension(true);
                 Console.WriteLine(extension);
                 return;
             }
