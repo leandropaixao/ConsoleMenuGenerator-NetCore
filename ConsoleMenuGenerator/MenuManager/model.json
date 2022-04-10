@@ -1,15 +1,8 @@
 {
-	"Title": "Cadastro de pessoas",
+	"Title": "Sistema XPTO",
 	"Menu": [
-	    {
-			"Pessoas": "CadastroPessoas"
-		},
-		{
-			"Telefone": "CadastroTelefones"
-		},
-		{
-			"Endereco": "CadastroEndereco"
-		}
-	],
-	"Exit": "Sair"
+	    "Cadastro de Pessoas",
+		"Cadastro de telefones",
+		"Cadastro de Endereco"		
+	]
 }
