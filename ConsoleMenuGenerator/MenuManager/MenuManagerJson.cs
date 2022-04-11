@@ -96,12 +96,12 @@ namespace ConsoleMenuGenerator.MenuManager
             {
                 _listMenu.AppendLine($"                Console.WriteLine(\"| {i+1} - {menuJson.Menu[i]}        |\");");
 
-                _listMethods.AppendLine($"        public static void {FormatNameMethod(menuJson.Menu[i])}()");
+                _listMethods.AppendLine($"        static void {FormatNameMethod(menuJson.Menu[i])}()");
                 _listMethods.AppendLine("        {\n            throw new NotImplementedException();\n        }");
                 _listMethods.AppendLine("");
                 
                 _listSwitch.AppendLine($"                        case {i+1} :");
-                _listSwitch.AppendLine($"                            Console.WriteLine(\"{menuJson.Menu[i]}\");");
+                _listSwitch.AppendLine($"                            {FormatNameMethod(menuJson.Menu[i])};");
                 _listSwitch.AppendLine("                            break;");
             }            
         }
