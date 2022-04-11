@@ -9,16 +9,16 @@ namespace ConsoleMenuGenerator.MenuManager
         public string[]? Menu { get; set; }        
     }
 
+    private StringBuilder() _listMenu = new StringBuilder();
+    private StringBuilder() _listMethods = new StringBuilder();
+    private StringBuilder() _listSwitch = new StringBuilder();
 
     public class MenuManagerJson : IMenuManager
     {
         public void GenerateMenu(string pathOrigin, string pathDestiny)
         {
-            var fileJson = File.ReadAllText(pathOrigin);
-            var menuJson = JsonSerializer.Deserialize<MenuJson>(fileJson)!;
+            ChargerInformations(pathOrigin);
 
-            if (menuJson == null) throw new NullReferenceException();
-            
             var jsonSB = new StringBuilder();
             var optionsSB = new StringBuilder();
 
@@ -37,12 +37,7 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("            {");
             jsonSB.AppendLine("                Console.ForegroundColor = ConsoleColor.DarkBlue;");
             jsonSB.AppendLine("                Console.WriteLine(\"+----- Menu console -----+\");");
-            for(int i = 0; i < menuJson.Menu.Length; i++)
-            {                
-                jsonSB.AppendLine($"                Console.WriteLine(\"| {i+1} - {menuJson.Menu[i]}        |\");");
-                optionsSB.AppendLine((i+1).ToString());
-            }
-            optionsSB.AppendLine("");
+            jsonSB.AppendLine(_listMenu.ToString);
             jsonSB.AppendLine("                Console.WriteLine(\"+------------------------+\");");
             jsonSB.AppendLine("                Console.WriteLine(\"| S - Sair               |\");");
             jsonSB.AppendLine("                Console.WriteLine(\"+------------------------+\");");
@@ -57,16 +52,7 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("                {");
             jsonSB.AppendLine("                    switch(number)");
             jsonSB.AppendLine("                    {");
-            jsonSB.AppendLine("                        case 1 :");
-            jsonSB.AppendLine("                            Console.WriteLine(\"Escolhida a opcao 1\");");
-            jsonSB.AppendLine("                            break;");
-            for(int i = 0; i < menuJson.Menu.Length; i++)
-            {
-                jsonSB.AppendLine($"                        case {i+1} :");
-                jsonSB.AppendLine($"                            Console.WriteLine(\"{menuJson.Menu[i]}\");");
-                jsonSB.AppendLine("                            break;");
-                optionsSB.AppendLine((i+1).ToString());
-            }
+            jsonSB.AppendLine(_listSwitch.ToString);
             jsonSB.AppendLine("                        default:");
             jsonSB.AppendLine("                            Console.WriteLine();");
             jsonSB.AppendLine("                            Console.WriteLine(\"Opção inválida\");");
@@ -90,19 +76,48 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("");
             jsonSB.AppendLine("        }");
             jsonSB.AppendLine("");
-
-
-            for(int i = 0; i < menuJson.Menu.Length; i++)
-            {
-                jsonSB.AppendLine($"        public static void {menuJson.Menu[i]}()");
-                jsonSB.AppendLine("        {\n            throw new NotImplementedException();\n        }");
-                jsonSB.AppendLine("");
-            }  
-
+            jsonSB.AppendLine(_listMethods.ToString);
             jsonSB.AppendLine("    }");
             jsonSB.AppendLine("}");
 
             Console.WriteLine(jsonSB.ToString());
+        }
+
+        private void ChargerInformations(string pathOrigin)
+        {
+            var fileJson = File.ReadAllText(pathOrigin);
+            var menuJson = JsonSerializer.Deserialize<MenuJson>(fileJson)!;
+
+            if (menuJson == null) throw new NullReferenceException();
+
+            for(int i = 0; i < menuJson.Menu.Length; i++)
+            {
+                _listMenu.Add($"                Console.WriteLine(\"| {i+1} - {menuJson.Menu[i]}        |\");");
+
+                _listMethods.Add($"        public static void {FormatNameMethod(menuJson.Menu[i])}()");
+                _listMethods.Add("        {\n            throw new NotImplementedException();\n        }");
+                _listMethods.Add("");
+                
+                _listSwitch.Add($"                        case {i+1} :");
+                _listSwitch.Add($"                            Console.WriteLine(\"{menuJson.Menu[i]}\");");
+                _listSwitch.Add("                            break;");
+            }            
+        }
+
+        private string FormatNameMethod(string org)
+        {
+            var listOrg = org.Split(" ");
+            var newName = "";
+
+            foreach (var item in listOrg)
+            {
+                if (!" de da do das dos".Contains(item) & item.Length > 1)
+                {
+                    newName = item[0].ToUpper() + item.Substring(1);
+                }
+            }
+
+            return newName;
         }
     }
 }
