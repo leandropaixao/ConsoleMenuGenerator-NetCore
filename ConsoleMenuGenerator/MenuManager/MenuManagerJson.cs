@@ -9,12 +9,14 @@ namespace ConsoleMenuGenerator.MenuManager
         public string[]? Menu { get; set; }        
     }
 
-    private StringBuilder() _listMenu = new StringBuilder();
-    private StringBuilder() _listMethods = new StringBuilder();
-    private StringBuilder() _listSwitch = new StringBuilder();
+    
 
     public class MenuManagerJson : IMenuManager
     {
+        private StringBuilder _listMenu = new StringBuilder();
+        private StringBuilder _listMethods = new StringBuilder();
+        private StringBuilder _listSwitch = new StringBuilder();
+
         public void GenerateMenu(string pathOrigin, string pathDestiny)
         {
             ChargerInformations(pathOrigin);
@@ -37,7 +39,7 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("            {");
             jsonSB.AppendLine("                Console.ForegroundColor = ConsoleColor.DarkBlue;");
             jsonSB.AppendLine("                Console.WriteLine(\"+----- Menu console -----+\");");
-            jsonSB.AppendLine(_listMenu.ToString);
+            jsonSB.Append(_listMenu.ToString());
             jsonSB.AppendLine("                Console.WriteLine(\"+------------------------+\");");
             jsonSB.AppendLine("                Console.WriteLine(\"| S - Sair               |\");");
             jsonSB.AppendLine("                Console.WriteLine(\"+------------------------+\");");
@@ -52,7 +54,7 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("                {");
             jsonSB.AppendLine("                    switch(number)");
             jsonSB.AppendLine("                    {");
-            jsonSB.AppendLine(_listSwitch.ToString);
+            jsonSB.Append(_listSwitch.ToString());
             jsonSB.AppendLine("                        default:");
             jsonSB.AppendLine("                            Console.WriteLine();");
             jsonSB.AppendLine("                            Console.WriteLine(\"Opção inválida\");");
@@ -76,7 +78,7 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("");
             jsonSB.AppendLine("        }");
             jsonSB.AppendLine("");
-            jsonSB.AppendLine(_listMethods.ToString);
+            jsonSB.Append(_listMethods.ToString());
             jsonSB.AppendLine("    }");
             jsonSB.AppendLine("}");
 
@@ -92,15 +94,15 @@ namespace ConsoleMenuGenerator.MenuManager
 
             for(int i = 0; i < menuJson.Menu.Length; i++)
             {
-                _listMenu.Add($"                Console.WriteLine(\"| {i+1} - {menuJson.Menu[i]}        |\");");
+                _listMenu.AppendLine($"                Console.WriteLine(\"| {i+1} - {menuJson.Menu[i]}        |\");");
 
-                _listMethods.Add($"        public static void {FormatNameMethod(menuJson.Menu[i])}()");
-                _listMethods.Add("        {\n            throw new NotImplementedException();\n        }");
-                _listMethods.Add("");
+                _listMethods.AppendLine($"        public static void {FormatNameMethod(menuJson.Menu[i])}()");
+                _listMethods.AppendLine("        {\n            throw new NotImplementedException();\n        }");
+                _listMethods.AppendLine("");
                 
-                _listSwitch.Add($"                        case {i+1} :");
-                _listSwitch.Add($"                            Console.WriteLine(\"{menuJson.Menu[i]}\");");
-                _listSwitch.Add("                            break;");
+                _listSwitch.AppendLine($"                        case {i+1} :");
+                _listSwitch.AppendLine($"                            Console.WriteLine(\"{menuJson.Menu[i]}\");");
+                _listSwitch.AppendLine("                            break;");
             }            
         }
 
@@ -113,7 +115,7 @@ namespace ConsoleMenuGenerator.MenuManager
             {
                 if (!" de da do das dos".Contains(item) & item.Length > 1)
                 {
-                    newName = item[0].ToUpper() + item.Substring(1);
+                    newName += char.ToUpper(item[0]).ToString() + item.Substring(1);
                 }
             }
 
