@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using ConsoleMenuGenerator.MenuManager;
 
 namespace ConsoleMenuGenerator
@@ -45,14 +46,25 @@ namespace ConsoleMenuGenerator
 
         private static void MessageHelp()
         {
+            var versionString = Assembly.GetEntryAssembly()?
+                                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+                                .InformationalVersion
+                                .ToString();
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine(GetProjectGithub());
-            Console.WriteLine("");
+            Console.WriteLine($"MenuGenerator v.{versionString}");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("Utilização: dotnet run [argumento]");
+            Console.WriteLine("Utilização: menuGenerator <opcao> <tipo> <argumento>");
+            Console.WriteLine("  Opcoes");
+            Console.WriteLine("    -e         Exportar o arquivo modelo");
+            Console.WriteLine("    -g         Gerar novo arquivo Porgram.cs");
+            Console.WriteLine("  Tipo entrada");
+            Console.WriteLine("    -j         Formato JSON");
+            Console.WriteLine("    -p         Formato PROTO");
             Console.WriteLine("");
-            Console.WriteLine("  argumento:");
-            Console.WriteLine("    - caminho do arquivo .json ou do arquivo .proto");
+            Console.WriteLine("  Arqgumento");
+            Console.WriteLine("    -c         Caminho do arquivo .json ou do arquivo .proto");
+            Console.WriteLine("    -s         Caminho de saída do arquivo .cs");
             Console.WriteLine("");
             Console.ResetColor();
         }
