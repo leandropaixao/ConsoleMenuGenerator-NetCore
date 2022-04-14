@@ -8,7 +8,7 @@ namespace ConsoleMenuGenerator
     {
         public static void Main(string[] args)
         {
-            if (args.Count() == 0)
+            if (args.Count() != 3)
             {
                 MessageHelp();
                 return;
@@ -54,18 +54,25 @@ namespace ConsoleMenuGenerator
             Console.WriteLine(GetProjectGithub());
             Console.WriteLine($"MenuGenerator v.{versionString}");
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("Utilização: menuGenerator <opcao> <tipo> <argumento>");
+            Console.WriteLine("Utilização: menuGenerator <opcao> <tipo> [argumento]");
             Console.WriteLine("  Opcoes");
             Console.WriteLine("    -e         Exportar o arquivo modelo");
             Console.WriteLine("    -g         Gerar novo arquivo Porgram.cs");
             Console.WriteLine("  Tipo entrada");
             Console.WriteLine("    -j         Formato JSON");
-            Console.WriteLine("    -p         Formato PROTO");
-            Console.WriteLine("");
-            Console.WriteLine("  Arqgumento");
-            Console.WriteLine("    -c         Caminho do arquivo .json ou do arquivo .proto");
-            Console.WriteLine("    -s         Caminho de saída do arquivo .cs");
-            Console.WriteLine("");
+            Console.WriteLine("    -p         Formato PROTO\n");
+            Console.WriteLine("  Argumento");
+            Console.WriteLine("    Caminho de saída do arquivo .cs\n");
+            Console.WriteLine("    Exportanto modelo (.json|.proto):");
+            Console.WriteLine("    - Para exportar o modelo para leiem json:");
+            Console.WriteLine("    ConsoleMenuGenerator.exe -e -j \"Caminho válido\"\n");
+            Console.WriteLine("    - Para exportar o novo modelo em json:");
+            Console.WriteLine("    ConsoleMenuGenerator.exe -e -p \"Caminho válido\"\n");
+            Console.WriteLine("    Gerando um novo menu (.cs):");
+            Console.WriteLine("    - Para exportar o modelo para leiem json:");
+            Console.WriteLine("    ConsoleMenuGenerator.exe -g -j \"Caminho válido\"\n");
+            Console.WriteLine("    - Para exportar o novo modelo em json:");
+            Console.WriteLine("    ConsoleMenuGenerator.exe -g -p \"Caminho válido\"");
             Console.ResetColor();
         }
 
