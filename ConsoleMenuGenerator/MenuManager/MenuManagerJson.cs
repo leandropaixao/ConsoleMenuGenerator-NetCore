@@ -91,6 +91,8 @@ namespace ConsoleMenuGenerator.MenuManager
             var menuJson = JsonSerializer.Deserialize<MenuJson>(fileJson)!;
 
             if (menuJson == null) throw new NullReferenceException();
+            if (menuJson.Menu == null) throw new NullReferenceException(nameof(menuJson.Menu));
+            if (menuJson.Menu.Length == 0) throw new NullReferenceException(nameof(menuJson.Menu.Length));
 
             for(int i = 0; i < menuJson.Menu.Length; i++)
             {
