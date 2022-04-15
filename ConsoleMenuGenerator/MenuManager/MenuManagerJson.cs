@@ -17,9 +17,9 @@ namespace ConsoleMenuGenerator.MenuManager
         private StringBuilder _listMethods = new StringBuilder();
         private StringBuilder _listSwitch = new StringBuilder();
 
-        public void GenerateMenu(string pathOrigin, string pathDestiny)
+        public void GenerateMenu(string path)
         {
-            ChargerInformations(pathOrigin);
+            ChargerInformations(path);
 
             var jsonSB = new StringBuilder();
             var optionsSB = new StringBuilder();
@@ -82,7 +82,12 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("    }");
             jsonSB.AppendLine("}");
 
-            Console.WriteLine(jsonSB.ToString());
+            //Console.WriteLine(jsonSB.ToString());
+            //Console.ReadLine();
+            using (StreamWriter sw = File.CreateText("Program.cs"))
+            {
+                sw.WriteLine(jsonSB.ToString());
+            }
         }
 
         private void ChargerInformations(string pathOrigin)

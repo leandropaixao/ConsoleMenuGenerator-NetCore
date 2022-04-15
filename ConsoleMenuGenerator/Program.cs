@@ -14,29 +14,47 @@ namespace ConsoleMenuGenerator
                 return;
             }
             
-            var path = args[0];
+            var path = args[2];
 
-            if (!File.Exists(path))
+            if (args[0].Equals("-g"))
             {
-                InvalidPathExtension();
-                return;
+                if (args[1].Equals("-j"))
+                {
+                    if (!File.Exists(path))
+                    {
+                        InvalidPathExtension();
+                        return;
+                    }
+
+                    var extension = Path.GetExtension(path);
+
+                    if (!extension.Equals(".json"))
+                    {
+                        InvalidPathExtension(true);
+                        Console.WriteLine(extension);
+                        return;
+                    }
+                    
+                    IMenuManager menuManagerJson = new MenuManagerJson();
+
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.WriteLine(GetProjectGithub());
+                    Console.ResetColor();
+                    menuManagerJson.GenerateMenu(path);
+                }
+                else
+                {
+                    MessageHelp();
+                }
             }
-
-            var extension = Path.GetExtension(path);
-
-            if (!extension.Equals(".proto") && !extension.Equals(".json"))
+            else if (args[0].Equals("-e"))
             {
-                InvalidPathExtension(true);
-                Console.WriteLine(extension);
-                return;
+                throw new NotImplementedException();
             }
-
-            IMenuManager menuManagerJson = new MenuManagerJson();
-
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine(GetProjectGithub());    
-            Console.ResetColor();        
-            menuManagerJson.GenerateMenu(path, "/Users/leandromayerpaixao/Projets/ConsoleMenuGenerator-NetCore/ConsoleMenuGenerator/MenuManager/model.json");
+            else
+            {
+                MessageHelp();
+            }
         }
 
         private static string GetProjectGithub()
@@ -76,14 +94,14 @@ namespace ConsoleMenuGenerator
             Console.ResetColor();
         }
 
-        private static void InvalidPathExtension(bool extension = false)
+        private static void InvalidPathExtension(bool extension = false, string type = ".json")
         {
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine(GetProjectGithub());
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.Red;
             if (extension)
-                Console.WriteLine("Tipo de arquivo inválido, deve ser .json ou .proto.");    
+                Console.WriteLine($"Tipo de arquivo inválido, deve ser {type}");
             else
                 Console.WriteLine("Caminho do arquivo inválido ou arquivo inexistente.");
             Console.ResetColor();
