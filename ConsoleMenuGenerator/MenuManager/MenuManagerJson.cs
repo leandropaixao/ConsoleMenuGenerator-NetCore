@@ -108,7 +108,7 @@ namespace ConsoleMenuGenerator.MenuManager
                 _listMethods.AppendLine("");
                 
                 _listSwitch.AppendLine($"                        case {i+1} :");
-                _listSwitch.AppendLine($"                            {FormatNameMethod(menuJson.Menu[i])};");
+                _listSwitch.AppendLine($"                            {FormatNameMethod(menuJson.Menu[i])}();");
                 _listSwitch.AppendLine("                            break;");
             }            
         }
