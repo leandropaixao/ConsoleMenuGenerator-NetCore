@@ -16,6 +16,7 @@ namespace ConsoleMenuGenerator.MenuManager
         private StringBuilder _listMenu = new StringBuilder();
         private StringBuilder _listMethods = new StringBuilder();
         private StringBuilder _listSwitch = new StringBuilder();
+        private int _size = 0;
 
         public void GenerateMenu(string path)
         {
@@ -84,9 +85,22 @@ namespace ConsoleMenuGenerator.MenuManager
 
             //Console.WriteLine(jsonSB.ToString());
             //Console.ReadLine();
-            using (StreamWriter sw = File.CreateText("Program.cs"))
+            try
             {
-                sw.WriteLine(jsonSB.ToString());
+                using (StreamWriter sw = File.CreateText("Program.cs"))
+                {
+                    sw.WriteLine(jsonSB.ToString());
+                }
+                Console.WriteLine("Arquivo criado com sucesso");
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Erro ao criar o arquivo: {ex.Message}");
+            }
+            finally
+            {
+                Console.WriteLine("Pressione uma tecla para sair...");
+                Console.ReadKey();
             }
         }
 
@@ -98,6 +112,8 @@ namespace ConsoleMenuGenerator.MenuManager
             if (menuJson == null) throw new NullReferenceException();
             if (menuJson.Menu == null) throw new NullReferenceException(nameof(menuJson.Menu));
             if (menuJson.Menu.Length == 0) throw new NullReferenceException(nameof(menuJson.Menu.Length));
+
+            _size = menuJson.Menu.Select(x => x.Length > 30 ? x.Length : 30).OrderBy(y => y).Last();
 
             for(int i = 0; i < menuJson.Menu.Length; i++)
             {
