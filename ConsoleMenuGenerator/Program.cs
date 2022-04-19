@@ -82,7 +82,7 @@ namespace ConsoleMenuGenerator
             Console.WriteLine("  Argumento");
             Console.WriteLine("    Caminho de saída do arquivo .cs\n");
             Console.WriteLine("    Exportanto modelo (.json|.proto):");
-            Console.WriteLine("    - Para exportar o modelo para leiem json:");
+            Console.WriteLine("    - Para exportar o modelo para em json:");
             Console.WriteLine("    ConsoleMenuGenerator.exe -e -j \"Caminho válido\"\n");
             Console.WriteLine("    - Para exportar o novo modelo em json:");
             Console.WriteLine("    ConsoleMenuGenerator.exe -e -p \"Caminho válido\"\n");
