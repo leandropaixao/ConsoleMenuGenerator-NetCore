@@ -17,6 +17,7 @@ namespace ConsoleMenuGenerator.MenuManager
         private StringBuilder _listMethods = new StringBuilder();
         private StringBuilder _listSwitch = new StringBuilder();
         private int _size = 0;
+        private string _name = "";        
 
         public void GenerateMenu(string path)
         {
@@ -39,11 +40,16 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("            do");
             jsonSB.AppendLine("            {");
             jsonSB.AppendLine("                Console.ForegroundColor = ConsoleColor.DarkBlue;");
-            jsonSB.AppendLine("                Console.WriteLine(\"+----- Menu console -----+\");");
+
+            var left = (_size - _name.Length)/2+3;
+            var right = (_size - _name.Length)/2+2;
+            if (right % 2 == 0)  right++;
+            
+            jsonSB.AppendLine($"                Console.WriteLine(\"+{new string('-',left)} {_name} {new string('-',right)}+\");");
             jsonSB.Append(_listMenu.ToString());
-            jsonSB.AppendLine("                Console.WriteLine(\"+------------------------+\");");
-            jsonSB.AppendLine("                Console.WriteLine(\"| S - Sair               |\");");
-            jsonSB.AppendLine("                Console.WriteLine(\"+------------------------+\");");
+            jsonSB.AppendLine($"                Console.WriteLine(\"+-------{new string('-',_size)}+\");");
+            jsonSB.AppendLine($"                Console.WriteLine(\"| S - Sair{new string(' ',_size-2)}|\");");
+            jsonSB.AppendLine($"                Console.WriteLine(\"+-------{new string('-',_size)}+\");");
             jsonSB.AppendLine("                Console.ResetColor();");
             jsonSB.AppendLine("");
             jsonSB.AppendLine("                Console.Write(\"Informe um valor: \");");
@@ -111,13 +117,15 @@ namespace ConsoleMenuGenerator.MenuManager
 
             if (menuJson == null) throw new NullReferenceException();
             if (menuJson.Menu == null) throw new NullReferenceException(nameof(menuJson.Menu));
+            if (string.IsNullOrEmpty(menuJson.Title)) throw new NullReferenceException(nameof(menuJson.Title));            
             if (menuJson.Menu.Length == 0) throw new NullReferenceException(nameof(menuJson.Menu.Length));
 
+            _name = menuJson.Title.Substring(0, Math.Min(menuJson.Title.Length, 20));
             _size = menuJson.Menu.Select(x => x.Length > 30 ? x.Length : 30).OrderBy(y => y).Last();
 
             for(int i = 0; i < menuJson.Menu.Length; i++)
             {
-                _listMenu.AppendLine($"                Console.WriteLine(\"| {i+1} - {menuJson.Menu[i]}        |\");");
+                _listMenu.AppendLine($"                Console.WriteLine(\"| {i+1} - {menuJson.Menu[i]}  {new string(' ', _size - menuJson.Menu[i].Length)}|\");");
 
                 _listMethods.AppendLine($"        static void {FormatNameMethod(menuJson.Menu[i])}()");
                 _listMethods.AppendLine("        {\n            throw new NotImplementedException();\n        }");
