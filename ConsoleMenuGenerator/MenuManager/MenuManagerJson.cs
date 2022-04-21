@@ -26,14 +26,13 @@ namespace ConsoleMenuGenerator.MenuManager
             var jsonSB = new StringBuilder();
             var optionsSB = new StringBuilder();
 
-            jsonSB.AppendLine("using System;");
+            jsonSB.AppendLine("using System;\n");
             jsonSB.AppendLine("namespace ConsoleMenu");
             jsonSB.AppendLine("{");
             jsonSB.AppendLine("    class Program");
             jsonSB.AppendLine("    {");
             jsonSB.AppendLine("        public static void Main(string[] args)");
             jsonSB.AppendLine("        {");
-            jsonSB.AppendLine("");
             jsonSB.AppendLine("            Console.Clear();");
             jsonSB.AppendLine("            var sair = false;");
             jsonSB.AppendLine("            var opcao = \"\";");
@@ -59,18 +58,26 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("");
             jsonSB.AppendLine("                if (isNumber)");
             jsonSB.AppendLine("                {");
-            jsonSB.AppendLine("                    switch(number)");
+            jsonSB.AppendLine("                    try");
             jsonSB.AppendLine("                    {");
+            jsonSB.AppendLine("                        switch(number)");
+            jsonSB.AppendLine("                        {");
             jsonSB.Append(_listSwitch.ToString());
-            jsonSB.AppendLine("                        default:");
-            jsonSB.AppendLine("                            Console.WriteLine();");
-            jsonSB.AppendLine("                            Console.WriteLine(\"Opção inválida\");");
-            jsonSB.AppendLine("                            break;");
+            jsonSB.AppendLine("                            default:");
+            jsonSB.AppendLine("                                Console.WriteLine();");
+            jsonSB.AppendLine("                                Console.WriteLine(\"Opção inválida\");");
+            jsonSB.AppendLine("                                break;");
+            jsonSB.AppendLine("                        }");
+            jsonSB.AppendLine("                    }");
+            jsonSB.AppendLine("                    catch (Exception ex)");
+            jsonSB.AppendLine("                    {");
+            jsonSB.AppendLine("                        Console.Clear();");
+            jsonSB.AppendLine("                        Console.WriteLine($\"Um erro foi gerado durante a execução: {ex.Message}\");");
             jsonSB.AppendLine("                    }");
             jsonSB.AppendLine("                }");
             jsonSB.AppendLine("                else");
             jsonSB.AppendLine("                {");
-            jsonSB.AppendLine("                    if (opcao.Equals(\"S\"))");
+            jsonSB.AppendLine("                    if (string.IsNullOrEmpty(opcao) || opcao.Equals(\"S\"))");
             jsonSB.AppendLine("                    {");
             jsonSB.AppendLine("                        sair = true;");
             jsonSB.AppendLine("                        Console.WriteLine(\"Saindo do sistema\");");
@@ -131,9 +138,9 @@ namespace ConsoleMenuGenerator.MenuManager
                 _listMethods.AppendLine("        {\n            throw new NotImplementedException();\n        }");
                 _listMethods.AppendLine("");
                 
-                _listSwitch.AppendLine($"                        case {i+1} :");
-                _listSwitch.AppendLine($"                            {FormatNameMethod(menuJson.Menu[i])}();");
-                _listSwitch.AppendLine("                            break;");
+                _listSwitch.AppendLine($"                            case {i+1} :");
+                _listSwitch.AppendLine($"                                {FormatNameMethod(menuJson.Menu[i])}();");
+                _listSwitch.AppendLine("                                break;");
             }            
         }
 
