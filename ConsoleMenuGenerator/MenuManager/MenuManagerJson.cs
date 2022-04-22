@@ -9,8 +9,6 @@ namespace ConsoleMenuGenerator.MenuManager
         public string[]? Menu { get; set; }        
     }
 
-    
-
     public class MenuManagerJson : IMenuManager
     {
         private StringBuilder _listMenu = new StringBuilder();
@@ -77,7 +75,7 @@ namespace ConsoleMenuGenerator.MenuManager
             jsonSB.AppendLine("                }");
             jsonSB.AppendLine("                else");
             jsonSB.AppendLine("                {");
-            jsonSB.AppendLine("                    if (string.IsNullOrEmpty(opcao) || opcao.Equals(\"S\"))");
+            jsonSB.AppendLine("                    if (!string.IsNullOrEmpty(opcao) && opcao.Equals(\"S\"))");
             jsonSB.AppendLine("                    {");
             jsonSB.AppendLine("                        sair = true;");
             jsonSB.AppendLine("                        Console.WriteLine(\"Saindo do sistema\");");
