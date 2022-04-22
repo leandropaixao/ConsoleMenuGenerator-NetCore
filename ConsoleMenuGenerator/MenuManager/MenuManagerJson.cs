@@ -17,6 +17,23 @@ namespace ConsoleMenuGenerator.MenuManager
         private int _size = 0;
         private string _name = "";        
 
+        public void GenerateModel(string path)
+        {
+            var jsonModel = new MenuJson
+            {
+                Title = "Nome do sistema",
+                Menu = new string[] {"Opcao do menu 1", "Opcao do menu 2"}
+            };
+
+            string jsonStr = JsonSerializer.Serialize(jsonModel);
+
+            using (StreamWriter sw = File.CreateText(Path.Combine(path, "model.json")))
+            {
+                sw.WriteLine(jsonStr);
+            }
+            Console.WriteLine("Arquivo criado com sucesso");
+        }
+
         public void GenerateMenu(string path)
         {
             ChargerInformations(path);

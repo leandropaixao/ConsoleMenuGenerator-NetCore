@@ -49,7 +49,17 @@ namespace ConsoleMenuGenerator
             }
             else if (args[0].Equals("-e"))
             {
-                throw new NotImplementedException();
+                if (!Directory.Exists(path))
+                {
+                    InvalidPathExtension();
+                    return;
+                }
+                IMenuManager menuManagerJson = new MenuManagerJson();
+
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine(GetProjectGithub());
+                Console.ResetColor();
+                menuManagerJson.GenerateModel(path);
             }
             else
             {
