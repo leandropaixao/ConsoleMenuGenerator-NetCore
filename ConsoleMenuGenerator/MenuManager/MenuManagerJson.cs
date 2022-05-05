@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace ConsoleMenuGenerator.MenuManager
 {
@@ -166,9 +167,10 @@ namespace ConsoleMenuGenerator.MenuManager
 
             foreach (var item in listOrg)
             {
-                if (!" de da do das dos a e i o u ".Contains(item) & item.Length > 0)
+                var itemRegex = Regex.Replace(item, "[^0-9a-zA-Z]+", "");
+                if (!" de da do das dos a e i o u ".Contains(itemRegex) & itemRegex.Length > 0)
                 {
-                    newName += char.ToUpper(item[0]).ToString() + item.Substring(1);
+                    newName += char.ToUpper(itemRegex[0]).ToString() + itemRegex.Substring(1);
                 }
             }
 
