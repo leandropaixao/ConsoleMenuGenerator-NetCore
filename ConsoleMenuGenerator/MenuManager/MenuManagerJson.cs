@@ -166,7 +166,7 @@ namespace ConsoleMenuGenerator.MenuManager
 
             foreach (var item in listOrg)
             {
-                if (!" de da do das dos".Contains(item) & item.Length > 1)
+                if (!" de da do das dos a e i o u ".Contains(item) & item.Length > 0)
                 {
                     newName += char.ToUpper(item[0]).ToString() + item.Substring(1);
                 }
